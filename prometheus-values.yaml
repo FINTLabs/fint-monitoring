@@ -1294,8 +1294,36 @@ serverFiles:
         static_configs:
           - targets: ['10.0.0.10:9100']
             labels:
-            service: 'nam'
-            host: 'namadmcon01'
+              service: 'nam'
+              host: 'namadmcon01'
+          - targets: ['10.0.0.11:9100']
+            labels:
+              service: 'nam'
+              host: 'namadmcon02'
+          - targets: ['10.0.1.10:9100']
+            labels:
+              service: 'nam'
+              host: 'namidp01'
+          - targets: ['10.0.1.11:9100']
+            labels:
+              service: 'nam'
+              host: 'namidp02'
+          - targets: ['10.0.2.10:9100']
+            labels:
+              service: 'nam'
+              host: 'namagw01'
+          - targets: ['10.0.2.11:9100']
+            labels:
+              service: 'nam'
+              host: 'namagw02'
+          - targets: ['10.0.0.50:9100']
+            labels:
+              service: 'nam'
+              host: 'edir01'
+          - targets: ['10.0.0.51:9100']
+            labels:
+              service: 'nam'
+              host: 'edir02'
       
 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
