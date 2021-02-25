@@ -20,7 +20,7 @@ serviceAccount:
 #  annotations:
 #    eks.amazonaws.com/role-arn: arn:aws:iam::123456789000:role/iam-role-name-here
 
-replicas: 1
+replicas: 2
 
 ## See `kubectl explain poddisruptionbudget.spec` for more
 ## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
@@ -31,7 +31,7 @@ podDisruptionBudget: {}
 ## See `kubectl explain deployment.spec.strategy` for more
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
 deploymentStrategy:
-  type: Recreate
+  type: RollingUpdate
 
 readinessProbe:
   httpGet:
@@ -391,9 +391,10 @@ extraVolumeMounts: []
 
 ## Pass the plugins you want installed as a list.
 ##
-plugins: []
-  # - digrich-bubblechart-panel
-  # - grafana-clock-panel
+plugins: 
+  - grafana-github-datasource
+  - grafana-clock-panel
+  - grafana-kubernetes-app
 
 ## Configure grafana datasources
 ## ref: http://docs.grafana.org/administration/provisioning/#datasources
@@ -463,6 +464,18 @@ dashboards:
     k8s:
       url: https://grafana.com/api/dashboards/7249/revisions/1/download
       datasource: Prometheus
+    graphql:
+      url: https://raw.githubusercontent.com/FINTLabs/fint-monitoring/main/dashboards/graphql.json
+      datasource: Prometheus
+    home:
+      url: https://raw.githubusercontent.com/FINTLabs/fint-monitoring/main/dashboards/home.json
+      #datasource: Prometheus
+    nam:
+      url: https://raw.githubusercontent.com/FINTLabs/fint-monitoring/main/dashboards/nam.json
+      datasource: Prometheus
+    kunde-portal:
+      url: https://raw.githubusercontent.com/FINTLabs/fint-monitoring/main/dashboards/kundeportal.json
+      datasource: Prometheus
   # default:
   #   some-dashboard:
   #     json: |
@@ -495,6 +508,8 @@ dashboardsConfigMaps: {}
 ## ref: http://docs.grafana.org/installation/configuration/
 ##
 grafana.ini:
+  dashboards:
+    default_home_dashboard_path: /var/lib/grafana/dashboards/default/home.json
   paths:
     data: /var/lib/grafana/data
     logs: /var/log/grafana
